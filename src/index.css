@@ -9,32 +9,52 @@ All colors MUST be HSL.
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 158 64% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 158 64% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 158 64% 12%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 158 64% 15%;
+    --primary-foreground: 120 20% 98%;
+    --primary-glow: 142 76% 36%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 120 60% 96%;
+    --secondary-foreground: 158 64% 15%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 120 20% 96%;
+    --muted-foreground: 158 30% 46%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 142 76% 36%;
+    --accent-foreground: 120 20% 98%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --success: 142 76% 36%;
+    --success-foreground: 120 20% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --warning: 43 96% 56%;
+    --warning-foreground: 25 30% 12%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 120 20% 98%;
+
+    --border: 120 20% 91%;
+    --input: 120 20% 91%;
+    --ring: 158 64% 15%;
+
+    /* Custom CEOE Design Tokens */
+    --gradient-primary: linear-gradient(135deg, hsl(158 64% 15%), hsl(142 76% 36%));
+    --gradient-earth: linear-gradient(180deg, hsl(142 76% 36%), hsl(158 64% 15%));
+    --gradient-sky: linear-gradient(135deg, hsl(200 100% 90%), hsl(142 76% 36%));
+    --gradient-carbon: linear-gradient(90deg, hsl(158 64% 15%), hsl(142 76% 36%), hsl(120 60% 50%));
+    
+    --shadow-glow: 0 0 40px hsl(142 76% 36% / 0.3);
+    --shadow-card: 0 4px 20px hsl(158 64% 15% / 0.1);
+    --shadow-elevation: 0 8px 32px hsl(158 64% 15% / 0.15);
+    
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --radius: 0.5rem;
 

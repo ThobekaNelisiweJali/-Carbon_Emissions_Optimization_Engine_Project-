@@ -1,12 +1,52 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import HeroSection from "@/components/HeroSection";
+import Navigation from "@/components/Navigation";
+import EmissionsDashboard from "@/components/EmissionsDashboard";
+import RouteOptimizer from "@/components/RouteOptimizer";
+import SupplierScoring from "@/components/SupplierScoring";
+import EmissionCalculator from "@/components/EmissionCalculator";
 
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+  const [activeTab, setActiveTab] = useState("dashboard");
+  const [showHero, setShowHero] = useState(true);
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case "dashboard":
+        return <EmissionsDashboard />;
+      case "routes":
+        return <RouteOptimizer />;
+      case "suppliers":
+        return <SupplierScoring />;
+      case "calculator":
+        return <EmissionCalculator />;
+      default:
+        return <EmissionsDashboard />;
+    }
+  };
+
+  if (showHero) {
+    return (
+      <div className="min-h-screen">
+        <HeroSection />
+        <div className="container mx-auto px-6 py-16 text-center">
+          <button
+            onClick={() => setShowHero(false)}
+            className="bg-gradient-primary text-white px-8 py-4 rounded-lg font-semibold hover:shadow-glow transition-all duration-300 transform hover:scale-105"
+          >
+            Enter CEOE Platform
+          </button>
+        </div>
       </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
+      <main className="container mx-auto px-6 py-8">
+        {renderContent()}
+      </main>
     </div>
   );
 };
