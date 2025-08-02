@@ -8,7 +8,10 @@ import {
   Calculator, 
   Leaf,
   Menu,
-  X
+  X,
+  FlaskConical,
+  FileText,
+  Plug
 } from "lucide-react";
 
 interface NavigationProps {
@@ -23,7 +26,11 @@ const Navigation = ({ activeTab, onTabChange }: NavigationProps) => {
     { id: "dashboard", label: "Dashboard", icon: BarChart3 },
     { id: "routes", label: "Route Optimizer", icon: Route },
     { id: "suppliers", label: "Supplier Scoring", icon: Building },
-    { id: "calculator", label: "Emission Calculator", icon: Calculator }
+    { id: "calculator", label: "Calculator", icon: Calculator },
+    { id: "scenarios", label: "Scenarios", icon: FlaskConical },
+    { id: "reports", label: "Reports", icon: FileText },
+    { id: "integrations", label: "Integrations", icon: Plug },
+    { id: "marketplace", label: "Offsets", icon: Leaf },
   ];
 
   return (
