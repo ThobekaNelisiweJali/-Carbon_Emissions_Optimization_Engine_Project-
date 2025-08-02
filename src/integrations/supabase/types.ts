@@ -14,7 +14,195 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      api_integrations: {
+        Row: {
+          api_endpoint: string | null
+          api_key_encrypted: string | null
+          created_at: string
+          id: string
+          integration_name: string
+          integration_type: string
+          is_active: boolean | null
+          last_sync: string | null
+          user_id: string
+        }
+        Insert: {
+          api_endpoint?: string | null
+          api_key_encrypted?: string | null
+          created_at?: string
+          id?: string
+          integration_name: string
+          integration_type: string
+          is_active?: boolean | null
+          last_sync?: string | null
+          user_id: string
+        }
+        Update: {
+          api_endpoint?: string | null
+          api_key_encrypted?: string | null
+          created_at?: string
+          id?: string
+          integration_name?: string
+          integration_type?: string
+          is_active?: boolean | null
+          last_sync?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      audit_reports: {
+        Row: {
+          generated_at: string
+          id: string
+          period_end: string | null
+          period_start: string | null
+          report_data: Json | null
+          report_name: string
+          report_type: string
+          total_emissions: number | null
+          total_shipments: number | null
+          user_id: string
+        }
+        Insert: {
+          generated_at?: string
+          id?: string
+          period_end?: string | null
+          period_start?: string | null
+          report_data?: Json | null
+          report_name: string
+          report_type: string
+          total_emissions?: number | null
+          total_shipments?: number | null
+          user_id: string
+        }
+        Update: {
+          generated_at?: string
+          id?: string
+          period_end?: string | null
+          period_start?: string | null
+          report_data?: Json | null
+          report_name?: string
+          report_type?: string
+          total_emissions?: number | null
+          total_shipments?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      carbon_offsets: {
+        Row: {
+          available_tons: number | null
+          certification: string | null
+          created_at: string
+          id: string
+          is_available: boolean | null
+          offset_type: string
+          price_per_ton: number
+          project_description: string | null
+          provider_name: string
+          user_id: string
+        }
+        Insert: {
+          available_tons?: number | null
+          certification?: string | null
+          created_at?: string
+          id?: string
+          is_available?: boolean | null
+          offset_type: string
+          price_per_ton: number
+          project_description?: string | null
+          provider_name: string
+          user_id: string
+        }
+        Update: {
+          available_tons?: number | null
+          certification?: string | null
+          created_at?: string
+          id?: string
+          is_available?: boolean | null
+          offset_type?: string
+          price_per_ton?: number
+          project_description?: string | null
+          provider_name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          company_name: string | null
+          created_at: string
+          id: string
+          industry: string | null
+          role: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          company_name?: string | null
+          created_at?: string
+          id?: string
+          industry?: string | null
+          role?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          company_name?: string | null
+          created_at?: string
+          id?: string
+          industry?: string | null
+          role?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      scenarios: {
+        Row: {
+          carbon_impact: number | null
+          cost_impact: number | null
+          created_at: string
+          description: string | null
+          freight_data: Json | null
+          id: string
+          name: string
+          route_data: Json | null
+          supplier_data: Json | null
+          time_impact: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          carbon_impact?: number | null
+          cost_impact?: number | null
+          created_at?: string
+          description?: string | null
+          freight_data?: Json | null
+          id?: string
+          name: string
+          route_data?: Json | null
+          supplier_data?: Json | null
+          time_impact?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          carbon_impact?: number | null
+          cost_impact?: number | null
+          created_at?: string
+          description?: string | null
+          freight_data?: Json | null
+          id?: string
+          name?: string
+          route_data?: Json | null
+          supplier_data?: Json | null
+          time_impact?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
