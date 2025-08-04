@@ -147,12 +147,12 @@ project-root/
 ````
 ## Key directories:
 
-src/components/: Feature components + UI library (Shadcn/ui)
-src/pages/: Route components
-src/integrations/: Supabase client and types
-supabase/: Database config and migrations
-public/: Static assets
-The project uses a standard React + TypeScript structure with Supabase backend integration.
+- src/components/: Feature components + UI library (Shadcn/ui)
+- src/pages/: Route components
+- src/integrations/: Supabase client and types
+- supabase/: Database config and migrations
+- public/: Static assets
+- The project uses a standard React + TypeScript structure with Supabase backend integration.
 ---
 
 ## 📊 Example Use Case
