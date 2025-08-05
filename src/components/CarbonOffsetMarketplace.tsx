@@ -39,15 +39,18 @@ const CarbonOffsetMarketplace = () => {
 
   const fetchOffsets = async () => {
     try {
+      console.log("Fetching carbon offsets...");
       const { data, error } = await supabase
         .from("carbon_offsets")
         .select("*")
         .eq("is_available", true)
         .order("price_per_ton", { ascending: true });
 
+      console.log("Fetch result:", { data, error });
       if (error) throw error;
       setOffsets(data || []);
     } catch (error: any) {
+      console.error("Error fetching offsets:", error);
       toast({
         title: "Error",
         description: "Failed to fetch carbon offsets",
@@ -109,18 +112,31 @@ const CarbonOffsetMarketplace = () => {
     ];
 
     try {
+      console.log("Checking for user authentication...");
       const { data: { user } } = await supabase.auth.getUser();
+      console.log("User:", user?.id ? "authenticated" : "not authenticated");
+      console.log("Current offsets count:", offsets.length);
+      
       if (user && offsets.length === 0) {
+        console.log("Inserting sample data...");
         const { error } = await supabase.from("carbon_offsets").insert(
           sampleOffsets.map(offset => ({ ...offset, user_id: user.id }))
         );
         
+        console.log("Insert result:", error);
         if (!error) {
           fetchOffsets();
         }
       }
     } catch (error) {
-      // Silently handle if user is not authenticated
+      console.error("Error in generateSampleData:", error);
+      // Still show sample data even if user is not authenticated
+      setOffsets(sampleOffsets.map((offset, index) => ({ 
+        ...offset, 
+        id: `sample-${index}`,
+        user_id: 'sample' 
+      })));
+      setLoading(false);
     }
   };
 
