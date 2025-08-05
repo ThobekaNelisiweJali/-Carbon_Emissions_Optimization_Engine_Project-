@@ -7,7 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
-import { Loader2 } from "lucide-react";
+import { Loader2, ArrowLeft } from "lucide-react";
+import PasswordStrength from "./PasswordStrength";
 
 interface AuthPageProps {
   onAuthSuccess: () => void;
@@ -20,6 +21,8 @@ const AuthPage = ({ onAuthSuccess }: AuthPageProps) => {
   const [companyName, setCompanyName] = useState("");
   const [industry, setIndustry] = useState("");
   const [role, setRole] = useState("");
+  const [resetEmail, setResetEmail] = useState("");
+  const [resetSent, setResetSent] = useState(false);
 
   useEffect(() => {
     // Check if user is already logged in
@@ -97,6 +100,35 @@ const AuthPage = ({ onAuthSuccess }: AuthPageProps) => {
     }
   };
 
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const redirectUrl = `${window.location.origin}/`;
+      
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+        redirectTo: redirectUrl,
+      });
+
+      if (error) throw error;
+
+      setResetSent(true);
+      toast({
+        title: "Reset email sent",
+        description: "Check your email for password reset instructions!",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-subtle flex items-center justify-center p-6">
       <Card className="w-full max-w-md">
@@ -108,9 +140,10 @@ const AuthPage = ({ onAuthSuccess }: AuthPageProps) => {
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="signin" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="signin">Sign In</TabsTrigger>
               <TabsTrigger value="signup">Sign Up</TabsTrigger>
+              <TabsTrigger value="reset">Reset</TabsTrigger>
             </TabsList>
 
             <TabsContent value="signin">
@@ -164,6 +197,7 @@ const AuthPage = ({ onAuthSuccess }: AuthPageProps) => {
                     required
                     minLength={6}
                   />
+                  <PasswordStrength password={password} />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="company">Company Name</Label>
@@ -212,6 +246,44 @@ const AuthPage = ({ onAuthSuccess }: AuthPageProps) => {
                   Create Account
                 </Button>
               </form>
+            </TabsContent>
+
+            <TabsContent value="reset">
+              {!resetSent ? (
+                <form onSubmit={handleResetPassword} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="reset-email">Email</Label>
+                    <Input
+                      id="reset-email"
+                      type="email"
+                      value={resetEmail}
+                      onChange={(e) => setResetEmail(e.target.value)}
+                      placeholder="Enter your email address"
+                      required
+                    />
+                  </div>
+                  <Button type="submit" className="w-full" disabled={loading}>
+                    {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Send Reset Email
+                  </Button>
+                </form>
+              ) : (
+                <div className="text-center space-y-4">
+                  <div className="text-success text-sm">
+                    ✓ Reset email sent to {resetEmail}
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => {
+                      setResetSent(false);
+                      setResetEmail("");
+                    }}
+                    className="w-full"
+                  >
+                    Send Another Email
+                  </Button>
+                </div>
+              )}
             </TabsContent>
           </Tabs>
         </CardContent>

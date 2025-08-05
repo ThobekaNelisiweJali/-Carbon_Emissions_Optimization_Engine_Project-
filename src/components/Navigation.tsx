@@ -11,15 +11,17 @@ import {
   X,
   FlaskConical,
   FileText,
-  Plug
+  Plug,
+  Home
 } from "lucide-react";
 
 interface NavigationProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
+  showHomeButton?: boolean;
 }
 
-const Navigation = ({ activeTab, onTabChange }: NavigationProps) => {
+const Navigation = ({ activeTab, onTabChange, showHomeButton = true }: NavigationProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navItems = [
@@ -50,6 +52,16 @@ const Navigation = ({ activeTab, onTabChange }: NavigationProps) => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-2">
+            {showHomeButton && activeTab !== "dashboard" && (
+              <Button
+                variant="outline"
+                onClick={() => onTabChange("dashboard")}
+                className="flex items-center gap-2"
+              >
+                <Home className="h-4 w-4" />
+                Home
+              </Button>
+            )}
             {navItems.map((item) => (
               <Button
                 key={item.id}
@@ -86,6 +98,19 @@ const Navigation = ({ activeTab, onTabChange }: NavigationProps) => {
         {isMobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-border">
             <div className="space-y-2">
+              {showHomeButton && activeTab !== "dashboard" && (
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    onTabChange("dashboard");
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full justify-start flex items-center gap-2"
+                >
+                  <Home className="h-4 w-4" />
+                  Home
+                </Button>
+              )}
               {navItems.map((item) => (
                 <Button
                   key={item.id}
