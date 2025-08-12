@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
-import { Leaf, Award, MapPin, DollarSign, ShoppingCart, Filter } from "lucide-react";
+import { Leaf } from "lucide-react";
+import OffsetCard from "@/components/marketplace/OffsetCard";
+import MarketplaceFilters from "@/components/marketplace/MarketplaceFilters";
+import EducationalSection from "@/components/marketplace/EducationalSection";
 
 interface CarbonOffset {
   id: string;
@@ -167,27 +169,6 @@ const CarbonOffsetMarketplace = () => {
     // In a real implementation, this would redirect to a payment flow
   };
 
-  const getCertificationColor = (certification: string) => {
-    switch (certification) {
-      case "Gold Standard": return "bg-yellow-100 text-yellow-800";
-      case "Verra VCS": return "bg-green-100 text-green-800";
-      case "CDM": return "bg-blue-100 text-blue-800";
-      case "Plan Vivo": return "bg-purple-100 text-purple-800";
-      default: return "bg-gray-100 text-gray-800";
-    }
-  };
-
-  const getOffsetTypeIcon = (type: string) => {
-    switch (type) {
-      case "Forestry": return "🌲";
-      case "Renewable Energy": return "⚡";
-      case "Waste Management": return "♻️";
-      case "Blue Carbon": return "🌊";
-      case "Direct Air Capture": return "🏭";
-      default: return "🌱";
-    }
-  };
-
   if (loading) {
     return <div>Loading marketplace...</div>;
   }
@@ -208,116 +189,16 @@ const CarbonOffsetMarketplace = () => {
         </div>
       </div>
 
-      {/* Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Filter className="h-5 w-5" />
-            Filter Options
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Offset Type</label>
-              <Select value={filters.offsetType} onValueChange={(value) => setFilters({ ...filters, offsetType: value })}>
-                <SelectTrigger>
-                  <SelectValue placeholder="All types" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="">All Types</SelectItem>
-                  <SelectItem value="Forestry">Forestry</SelectItem>
-                  <SelectItem value="Renewable Energy">Renewable Energy</SelectItem>
-                  <SelectItem value="Waste Management">Waste Management</SelectItem>
-                  <SelectItem value="Blue Carbon">Blue Carbon</SelectItem>
-                  <SelectItem value="Direct Air Capture">Direct Air Capture</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Certification</label>
-              <Select value={filters.certification} onValueChange={(value) => setFilters({ ...filters, certification: value })}>
-                <SelectTrigger>
-                  <SelectValue placeholder="All certifications" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="">All Certifications</SelectItem>
-                  <SelectItem value="Gold Standard">Gold Standard</SelectItem>
-                  <SelectItem value="Verra VCS">Verra VCS</SelectItem>
-                  <SelectItem value="CDM">CDM</SelectItem>
-                  <SelectItem value="Plan Vivo">Plan Vivo</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Price Range ($/ton)</label>
-              <Select value={filters.priceRange} onValueChange={(value) => setFilters({ ...filters, priceRange: value })}>
-                <SelectTrigger>
-                  <SelectValue placeholder="All prices" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="">All Prices</SelectItem>
-                  <SelectItem value="0-20">$0 - $20</SelectItem>
-                  <SelectItem value="20-50">$20 - $50</SelectItem>
-                  <SelectItem value="50-100">$50 - $100</SelectItem>
-                  <SelectItem value="100">$100+</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <MarketplaceFilters filters={filters} onFiltersChange={setFilters} />
 
       {/* Offset Listings */}
       <div className="grid gap-6">
         {filteredOffsets.map((offset) => (
-          <Card key={offset.id} className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="flex items-start justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="text-3xl">{getOffsetTypeIcon(offset.offset_type)}</div>
-                  <div>
-                    <CardTitle className="flex items-center gap-2">
-                      {offset.provider_name}
-                      <Badge className={getCertificationColor(offset.certification)}>
-                        <Award className="h-3 w-3 mr-1" />
-                        {offset.certification}
-                      </Badge>
-                    </CardTitle>
-                    <CardDescription className="flex items-center gap-1">
-                      <Leaf className="h-4 w-4" />
-                      {offset.offset_type}
-                    </CardDescription>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="text-2xl font-bold text-primary">
-                    ${offset.price_per_ton.toFixed(2)}
-                  </div>
-                  <div className="text-sm text-muted-foreground">per ton CO₂</div>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground mb-4">{offset.project_description}</p>
-              
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <Badge variant="outline">
-                    {offset.available_tons.toLocaleString()} tons available
-                  </Badge>
-                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                    <MapPin className="h-4 w-4" />
-                    Verified Project
-                  </div>
-                </div>
-                <Button onClick={() => purchaseOffset(offset)} className="gap-2">
-                  <ShoppingCart className="h-4 w-4" />
-                  Purchase Offsets
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          <OffsetCard 
+            key={offset.id} 
+            offset={offset} 
+            onPurchase={purchaseOffset} 
+          />
         ))}
       </div>
 
@@ -336,37 +217,7 @@ const CarbonOffsetMarketplace = () => {
         </Card>
       )}
 
-      {/* Educational Section */}
-      <Card>
-        <CardHeader>
-          <CardTitle>About Carbon Offsets</CardTitle>
-          <CardDescription>
-            Understanding high-quality carbon offset projects
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <h4 className="font-semibold mb-2">Quality Standards</h4>
-              <ul className="text-sm text-muted-foreground space-y-1">
-                <li>• <strong>Additionality:</strong> Projects wouldn't happen without offset funding</li>
-                <li>• <strong>Permanence:</strong> Carbon reductions are long-lasting</li>
-                <li>• <strong>Verification:</strong> Third-party audited and certified</li>
-                <li>• <strong>No Double Counting:</strong> Credits used only once</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2">Certification Bodies</h4>
-              <ul className="text-sm text-muted-foreground space-y-1">
-                <li>• <strong>Gold Standard:</strong> Premium projects with co-benefits</li>
-                <li>• <strong>Verra VCS:</strong> World's most used voluntary standard</li>
-                <li>• <strong>CDM:</strong> UN-supervised clean development projects</li>
-                <li>• <strong>Plan Vivo:</strong> Community-led projects in developing countries</li>
-              </ul>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <EducationalSection />
     </div>
   );
 };
