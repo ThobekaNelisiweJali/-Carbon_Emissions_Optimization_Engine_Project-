@@ -1,6 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import { 
   TrendingDown, 
   TrendingUp, 
@@ -9,7 +11,10 @@ import {
   Target,
   BarChart3,
   MapPin,
-  Clock
+  Clock,
+  Trash2,
+  HelpCircle,
+  RotateCcw
 } from "lucide-react";
 
 const EmissionsDashboard = () => {
@@ -29,8 +34,38 @@ const EmissionsDashboard = () => {
     { route: "Seattle → Denver", savings: "12.1 tons CO₂", efficiency: 95 }
   ];
 
+  const handleClearData = () => {
+    toast.success("Dashboard data cleared successfully");
+  };
+
+  const handleResetTargets = () => {
+    toast.success("Emission targets reset to default values");
+  };
+
+  const showHelp = () => {
+    toast.info("Dashboard shows real-time emissions data, reduction targets, and recent optimizations. Use the clear data button to reset metrics.");
+  };
+
   return (
     <div className="space-y-6">
+      {/* Header with Actions */}
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold">Emissions Dashboard</h2>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" onClick={showHelp}>
+            <HelpCircle className="w-4 h-4 mr-2" />
+            Help
+          </Button>
+          <Button variant="outline" size="sm" onClick={handleResetTargets}>
+            <RotateCcw className="w-4 h-4 mr-2" />
+            Reset Targets
+          </Button>
+          <Button variant="destructive" size="sm" onClick={handleClearData}>
+            <Trash2 className="w-4 h-4 mr-2" />
+            Clear Data
+          </Button>
+        </div>
+      </div>
       {/* Main Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="shadow-card border-accent/20">

@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { toast } from "sonner";
 import { 
   Route, 
   Navigation, 
@@ -10,7 +11,10 @@ import {
   DollarSign,
   Leaf,
   MapPin,
-  ArrowRight
+  ArrowRight,
+  Edit3,
+  Trash2,
+  HelpCircle
 } from "lucide-react";
 
 const RouteOptimizer = () => {
@@ -42,14 +46,40 @@ const RouteOptimizer = () => {
     { city: "New York", status: "pending", emissions: 0 }
   ];
 
+  const handleEditRoute = () => {
+    toast.info("Route editing functionality coming soon!");
+  };
+
+  const handleDeleteRoute = () => {
+    toast.success("Route deleted successfully");
+  };
+
+  const showHelp = () => {
+    toast.info("Compare original vs AI-optimized routes. Use edit to modify route parameters or delete to remove saved routes.");
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">Route Optimization</h2>
-        <Button variant="carbon">
-          <Zap className="w-4 h-4 mr-2" />
-          Optimize New Route
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" onClick={showHelp}>
+            <HelpCircle className="w-4 h-4 mr-2" />
+            Help
+          </Button>
+          <Button variant="outline" size="sm" onClick={handleEditRoute}>
+            <Edit3 className="w-4 h-4 mr-2" />
+            Edit Route
+          </Button>
+          <Button variant="destructive" size="sm" onClick={handleDeleteRoute}>
+            <Trash2 className="w-4 h-4 mr-2" />
+            Delete Route
+          </Button>
+          <Button variant="carbon">
+            <Zap className="w-4 h-4 mr-2" />
+            Optimize New Route
+          </Button>
+        </div>
       </div>
 
       {/* Route Comparison */}

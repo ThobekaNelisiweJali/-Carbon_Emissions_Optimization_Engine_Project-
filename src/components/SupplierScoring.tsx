@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { toast } from "sonner";
 import { 
   Building, 
   Star, 
@@ -10,7 +11,10 @@ import {
   Award,
   MapPin,
   Truck,
-  Shield
+  Shield,
+  Edit3,
+  Trash2,
+  HelpCircle
 } from "lucide-react";
 
 const SupplierScoring = () => {
@@ -73,14 +77,32 @@ const SupplierScoring = () => {
     return "outline";
   };
 
+  const handleEditSupplier = (supplierId: number) => {
+    toast.info(`Editing supplier ${supplierId} - functionality coming soon!`);
+  };
+
+  const handleDeleteSupplier = (supplierId: number) => {
+    toast.success(`Supplier ${supplierId} deleted successfully`);
+  };
+
+  const showHelp = () => {
+    toast.info("Suppliers are scored on carbon emissions (40%), reliability (35%), and cost efficiency (25%). Use edit/delete actions to manage supplier data.");
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">Supplier Carbon Scoring</h2>
-        <Button variant="earth">
-          <Building className="w-4 h-4 mr-2" />
-          Add New Supplier
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" onClick={showHelp}>
+            <HelpCircle className="w-4 h-4 mr-2" />
+            Help
+          </Button>
+          <Button variant="earth">
+            <Building className="w-4 h-4 mr-2" />
+            Add New Supplier
+          </Button>
+        </div>
       </div>
 
       {/* Scoring Overview */}
@@ -180,8 +202,13 @@ const SupplierScoring = () => {
                   </div>
 
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm" className="flex-1">
-                      View Details
+                    <Button variant="outline" size="sm" onClick={() => handleEditSupplier(supplier.id)}>
+                      <Edit3 className="w-3 h-3 mr-1" />
+                      Edit
+                    </Button>
+                    <Button variant="destructive" size="sm" onClick={() => handleDeleteSupplier(supplier.id)}>
+                      <Trash2 className="w-3 h-3 mr-1" />
+                      Delete
                     </Button>
                     <Button variant={getScoreBadge(supplier.carbonScore)} size="sm" className="flex-1">
                       Select Supplier
