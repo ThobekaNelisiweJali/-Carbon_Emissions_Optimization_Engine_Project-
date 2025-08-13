@@ -38,7 +38,7 @@ const Navigation = ({ activeTab, onTabChange, showHomeButton = true }: Navigatio
   return (
     <nav className="bg-card border-b border-border shadow-card sticky top-0 z-50 backdrop-blur-sm bg-card/95">
       <div className="container mx-auto px-6">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2 bg-gradient-primary p-2 rounded-lg">
@@ -51,7 +51,7 @@ const Navigation = ({ activeTab, onTabChange, showHomeButton = true }: Navigatio
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden lg:flex items-center gap-1 overflow-x-auto max-w-4xl">
             {showHomeButton && activeTab !== "dashboard" && (
               <Button
                 variant="outline"
@@ -87,7 +87,7 @@ const Navigation = ({ activeTab, onTabChange, showHomeButton = true }: Navigatio
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden"
+            className="lg:hidden"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -96,7 +96,7 @@ const Navigation = ({ activeTab, onTabChange, showHomeButton = true }: Navigatio
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border">
+          <div className="lg:hidden py-4 border-t border-border">
             <div className="space-y-2">
               {showHomeButton && activeTab !== "dashboard" && (
                 <Button

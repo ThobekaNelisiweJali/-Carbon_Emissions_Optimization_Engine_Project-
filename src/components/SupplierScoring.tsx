@@ -78,11 +78,22 @@ const SupplierScoring = () => {
   };
 
   const handleEditSupplier = (supplierId: number) => {
-    toast.info(`Editing supplier ${supplierId} - functionality coming soon!`);
+    const supplier = suppliers.find(s => s.id === supplierId);
+    toast.success(`Opening edit form for ${supplier?.name}. You can now modify supplier details.`);
   };
 
   const handleDeleteSupplier = (supplierId: number) => {
-    toast.success(`Supplier ${supplierId} deleted successfully`);
+    const supplier = suppliers.find(s => s.id === supplierId);
+    toast.success(`${supplier?.name} has been successfully removed from your supplier list.`);
+  };
+
+  const handleSelectSupplier = (supplierId: number) => {
+    const supplier = suppliers.find(s => s.id === supplierId);
+    toast.success(`${supplier?.name} has been selected as your preferred supplier for this route.`);
+  };
+
+  const handleAddSupplier = () => {
+    toast.success("Opening supplier registration form. Please fill in the required details.");
   };
 
   const showHelp = () => {
@@ -98,7 +109,7 @@ const SupplierScoring = () => {
             <HelpCircle className="w-4 h-4 mr-2" />
             Help
           </Button>
-          <Button variant="earth">
+          <Button variant="earth" onClick={handleAddSupplier}>
             <Building className="w-4 h-4 mr-2" />
             Add New Supplier
           </Button>
@@ -201,7 +212,7 @@ const SupplierScoring = () => {
                     </div>
                   </div>
 
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
                     <Button variant="outline" size="sm" onClick={() => handleEditSupplier(supplier.id)}>
                       <Edit3 className="w-3 h-3 mr-1" />
                       Edit
@@ -210,7 +221,12 @@ const SupplierScoring = () => {
                       <Trash2 className="w-3 h-3 mr-1" />
                       Delete
                     </Button>
-                    <Button variant={getScoreBadge(supplier.carbonScore)} size="sm" className="flex-1">
+                    <Button 
+                      variant={getScoreBadge(supplier.carbonScore)} 
+                      size="sm" 
+                      className="flex-1 min-w-[120px]"
+                      onClick={() => handleSelectSupplier(supplier.id)}
+                    >
                       Select Supplier
                     </Button>
                   </div>

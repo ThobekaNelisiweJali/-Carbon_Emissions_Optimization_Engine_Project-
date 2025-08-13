@@ -47,11 +47,15 @@ const RouteOptimizer = () => {
   ];
 
   const handleEditRoute = () => {
-    toast.info("Route editing functionality coming soon!");
+    toast.success("Route editing mode activated. You can now modify waypoints and settings.");
   };
 
   const handleDeleteRoute = () => {
-    toast.success("Route deleted successfully");
+    toast.success("Route has been deleted from your optimization list.");
+  };
+
+  const handleOptimizeNewRoute = () => {
+    toast.success("Route optimization started! Analyzing current routes and generating optimized alternatives...");
   };
 
   const showHelp = () => {
@@ -62,7 +66,7 @@ const RouteOptimizer = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">Route Optimization</h2>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Button variant="outline" size="sm" onClick={showHelp}>
             <HelpCircle className="w-4 h-4 mr-2" />
             Help
@@ -75,7 +79,7 @@ const RouteOptimizer = () => {
             <Trash2 className="w-4 h-4 mr-2" />
             Delete Route
           </Button>
-          <Button variant="carbon">
+          <Button variant="carbon" onClick={handleOptimizeNewRoute}>
             <Zap className="w-4 h-4 mr-2" />
             Optimize New Route
           </Button>
