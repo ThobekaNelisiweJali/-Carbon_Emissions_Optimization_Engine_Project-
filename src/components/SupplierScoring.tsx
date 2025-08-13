@@ -78,21 +78,25 @@ const SupplierScoring = () => {
   };
 
   const handleEditSupplier = (supplierId: number) => {
+    console.log("Edit supplier button clicked", supplierId);
     const supplier = suppliers.find(s => s.id === supplierId);
     toast.success(`Opening edit form for ${supplier?.name}. You can now modify supplier details.`);
   };
 
   const handleDeleteSupplier = (supplierId: number) => {
+    console.log("Delete supplier button clicked", supplierId);
     const supplier = suppliers.find(s => s.id === supplierId);
     toast.success(`${supplier?.name} has been successfully removed from your supplier list.`);
   };
 
   const handleSelectSupplier = (supplierId: number) => {
+    console.log("Select supplier button clicked", supplierId);
     const supplier = suppliers.find(s => s.id === supplierId);
     toast.success(`${supplier?.name} has been selected as your preferred supplier for this route.`);
   };
 
   const handleAddSupplier = () => {
+    console.log("Add supplier button clicked");
     toast.success("Opening supplier registration form. Please fill in the required details.");
   };
 

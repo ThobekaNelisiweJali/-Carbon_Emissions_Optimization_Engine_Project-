@@ -47,14 +47,17 @@ const RouteOptimizer = () => {
   ];
 
   const handleEditRoute = () => {
+    console.log("Edit route button clicked");
     toast.success("Route editing mode activated. You can now modify waypoints and settings.");
   };
 
   const handleDeleteRoute = () => {
+    console.log("Delete route button clicked");
     toast.success("Route has been deleted from your optimization list.");
   };
 
   const handleOptimizeNewRoute = () => {
+    console.log("Optimize new route button clicked");
     toast.success("Route optimization started! Analyzing current routes and generating optimized alternatives...");
   };
 
